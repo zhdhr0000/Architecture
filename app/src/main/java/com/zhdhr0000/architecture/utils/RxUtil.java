@@ -1,8 +1,5 @@
 package com.zhdhr0000.architecture.utils;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
@@ -14,7 +11,6 @@ import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -23,67 +19,65 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RxUtil {
 
-    public static <T> Observable<T> createData(final T t, final Disposable disposable) {
+    /**
+     * 通过create方法创建一个Observable对象,并且进行默认的IO控制.
+     * @param t
+     * @param <T>
+     * @return Observable<T>
+     */
+    public static <T> Observable<T> init(final T t){
+        return create(t).compose(RxUtil.<T>schedulerHelper());
+    }
+
+    /**
+     * 通过create方法创建一个Observable对象,直接在subscribe的时候即可处理异常
+     * @param t
+     * @param <T>
+     * @return Observable<T>
+     */
+    public static <T> Observable<T> create(final T t) {
         return Observable.create(new ObservableOnSubscribe<T>() {
             @Override
             public void subscribe(ObservableEmitter<T> emitter) throws Exception {
-                try {
-                    emitter.setDisposable(disposable);
-                    emitter.onNext(t);
-                    emitter.onComplete();
-                }catch (Exception e){
-                    emitter.onError(e);
-                }
+                emitter.onNext(t);
+                emitter.onComplete();
             }
         });
     }
 
-    public static <T> Observable<T> unsafeCreateData(final T t, final Disposable d){
-        return Observable.unsafeCreate(new ObservableSource<T>() {
+
+    /**
+     * 通过new,创建一个Observable对象,发生异常时会传入onError,通过.doOnError()控制抛出的异常
+     * @param t
+     * @param <T>
+     * @return Observable<T>
+     */
+    public static <T> Observable<T> newSource(final T t) {
+        return new Observable<T>() {
             @Override
-            public void subscribe(Observer<? super T> observer) {
+            protected void subscribeActual(Observer<? super T> observer) {
                 try {
-                    observer.onSubscribe(d);
                     observer.onNext(t);
                     observer.onComplete();
-                }catch (Exception e){
+                } catch (Exception e) {
                     observer.onError(e);
                 }
             }
-        });
+        };
     }
 
-    public static <T> Flowable<T> createData(final T t, final Disposable disposable, BackpressureStrategy strategy){
+    //placeholder 未经测试的代码
+    public static <T> Flowable<T> create(final T t, BackpressureStrategy strategy) {
         return Flowable.create(new FlowableOnSubscribe<T>() {
             @Override
             public void subscribe(FlowableEmitter<T> emitter) throws Exception {
-                try {
-                    emitter.setDisposable(disposable);
-                    emitter.onNext(t);
-                    emitter.onComplete();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                emitter.onNext(t);
+                emitter.onComplete();
             }
-        },strategy);
+        }, strategy);
     }
 
-    public static <T> Flowable unsafeCreateData(final T t,final Subscription subscription){
-        return Flowable.unsafeCreate(new Flowable() {
-            @Override
-            protected void subscribeActual(Subscriber s) {
-                try {
-                    s.onSubscribe(subscription);
-                    s.onNext(t);
-                    s.onComplete();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public static <T>ObservableTransformer<T,T> schedulerHelper(){
+    public static <T> ObservableTransformer<T, T> schedulerHelper() {
         return new ObservableTransformer<T, T>() {
             @Override
             public ObservableSource<T> apply(Observable<T> upstream) {

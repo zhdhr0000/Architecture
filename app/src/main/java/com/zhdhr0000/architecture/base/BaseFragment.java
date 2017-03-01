@@ -5,12 +5,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.zhdhr0000.architecture.protocol.mvp.IView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by win7 on 2017/2/28.
@@ -21,6 +22,8 @@ public abstract class BaseFragment<T extends RxPresenter> extends Fragment imple
     protected T mPresenter;
     protected View mView;
     protected Activity mActivity;
+    protected Toast mToast;
+    private Unbinder mUnbinder;
 
     @Override
     public void onAttach(Context context) {
@@ -28,21 +31,45 @@ public abstract class BaseFragment<T extends RxPresenter> extends Fragment imple
         super.onAttach(context);
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mView = inflater.inflate(getLayoutID(), container, false);
+        initPresenter();
+        return mView;
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (mPresenter != null) {
             mPresenter.attachView(this);
+            mUnbinder = ButterKnife.bind(this, view);
         }
         init();
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(getLayoutID(), container);
-        initPresenter();
-        return super.onCreateView(inflater, container, savedInstanceState);
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void showToast(String toast) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(mActivity, toast + "", Toast.LENGTH_SHORT);
+        mToast.show();
     }
 
     protected abstract void init();
@@ -50,13 +77,5 @@ public abstract class BaseFragment<T extends RxPresenter> extends Fragment imple
     protected abstract void initPresenter();
 
     protected abstract int getLayoutID();
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.detachView();
-        }
-    }
 
 }

@@ -20,10 +20,10 @@ public class App extends Application {
     }
 
     private void initHttp() {
-
+        //placeholder
     }
 
     private void initFresco() {
-
+        //placeholder
     }
 }

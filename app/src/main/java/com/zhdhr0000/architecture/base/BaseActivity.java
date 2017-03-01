@@ -1,10 +1,9 @@
 package com.zhdhr0000.architecture.base;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-
-import com.zhdhr0000.architecture.protocol.mvp.IView;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -17,13 +16,15 @@ public abstract class BaseActivity<T extends RxPresenter> extends AppCompatActiv
 
     protected T mPresenter;
     protected BaseActivity mActivity;
+    protected Toast mToast;
+    private Unbinder mUnbinder;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(getLayoutID());
+        mUnbinder = ButterKnife.bind(this);
         mActivity = this;
-        ButterKnife.bind(this);
         initPresenter();
         if (mPresenter != null) {
             mPresenter.attachView(this);
@@ -37,6 +38,16 @@ public abstract class BaseActivity<T extends RxPresenter> extends AppCompatActiv
         if (mPresenter != null) {
             mPresenter.detachView();
         }
+        mUnbinder.unbind();
+    }
+
+    @Override
+    public void showToast(String toast) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(this, toast + "", Toast.LENGTH_SHORT);
+        mToast.show();
     }
 
     protected abstract void initPresenter();
@@ -44,4 +55,5 @@ public abstract class BaseActivity<T extends RxPresenter> extends AppCompatActiv
     protected abstract void init();
 
     protected abstract int getLayoutID();
+
 }
