@@ -15,6 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by zhangyh on 2017/2/28.
+ * RxJava2工具类
  */
 
 public class RxUtil {
@@ -30,7 +31,7 @@ public class RxUtil {
     }
 
     /**
-     * 通过create方法创建一个Observable对象,直接在subscribe的时候即可处理异常
+     * 通过create方法创建一个Observable对象,直接在subscribe的时候即可处理异常,也可以通过doOnError统一处理来处理异常
      * @param t
      * @param <T>
      * @return Observable<T>
@@ -47,7 +48,7 @@ public class RxUtil {
 
 
     /**
-     * 通过new,创建一个Observable对象,发生异常时会传入onError,通过.doOnError()控制抛出的异常
+     * 通过new,创建一个Observable对象.和create创建出来的区别还不造...
      * @param t
      * @param <T>
      * @return Observable<T>
@@ -77,6 +78,11 @@ public class RxUtil {
         }, strategy);
     }
 
+    /**
+     * 简单的线程调度处理,在IO线程处理subscribe,在主线程处理observe
+     * @param <T>
+     * @return Observable<T>
+     */
     public static <T> ObservableTransformer<T, T> schedulerHelper() {
         return new ObservableTransformer<T, T>() {
             @Override

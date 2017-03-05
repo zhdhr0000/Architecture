@@ -18,6 +18,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 dependencies {
@@ -27,7 +31,7 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
     //Support
-    compile 'com.android.support:design:25.1.1'
+    compile 'com.android.support:design:25.2.0'
     //Http
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
@@ -39,5 +43,4 @@ dependencies {
     //butterknife
     compile 'com.jakewharton:butterknife:8.2.1'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
-
 }

@@ -13,6 +13,11 @@ import com.zhdhr0000.architecture.view.fragment.EditWithRxFragment;
 
 import butterknife.BindView;
 
+/**
+ * Created by zhangyh on 2017/3/1.
+ * App主页
+ */
+
 public class MainActivity extends BaseActivity<MainPresenter> implements Main.View {
 
     @BindView(R.id.dl_left_menu)

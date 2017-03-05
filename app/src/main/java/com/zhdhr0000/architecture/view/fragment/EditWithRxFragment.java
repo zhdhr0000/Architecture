@@ -16,7 +16,8 @@ import com.zhdhr0000.architecture.protocol.EditWithRx;
 import butterknife.BindView;
 
 /**
- * Created by win7 on 2017/3/1.
+ * Created by zhangyh on 2017/3/1.
+ *
  */
 
 public class EditWithRxFragment extends BaseFragment<EditWithRxPresenter> implements EditWithRx.View {

@@ -3,7 +3,7 @@ package com.zhdhr0000.architecture.app;
 import android.app.Application;
 
 /**
- * Created by win7 on 2017/2/28.
+ * Created by zhangyh on 2017/2/28.
  */
 
 public class App extends Application {

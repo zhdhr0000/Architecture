@@ -4,7 +4,7 @@ import com.zhdhr0000.architecture.base.IPresenter;
 import com.zhdhr0000.architecture.base.IView;
 
 /**
- * Created by win7 on 2017/3/1.
+ * Created by zhangyh on 2017/3/1.
  */
 
 public interface Main {

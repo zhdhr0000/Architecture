@@ -1,7 +1,8 @@
 package com.zhdhr0000.architecture.base;
 
 /**
- * Created by win7 on 2017/2/28.
+ * Created by zhangyh on 2017/2/28.
+ * Presenter的基础抽象协议
  */
 
 public interface IPresenter<T extends IView> {

@@ -1,7 +1,8 @@
 package com.zhdhr0000.architecture.base;
 
 /**
- * Created by win7 on 2017/2/28.
+ * Created by zhangyh on 2017/2/28.
+ * Presenter基类
  */
 
 public class BasePresenter<T extends IView> implements IPresenter<T> {
