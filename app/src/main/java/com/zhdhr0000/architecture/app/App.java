@@ -12,10 +12,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        //init ImageLoader
+        //initDataAndEvent ImageLoader
         initFresco();
 
-        //init http
+        //initDataAndEvent http
         initHttp();
     }
 

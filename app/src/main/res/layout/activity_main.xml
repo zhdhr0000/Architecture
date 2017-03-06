@@ -17,11 +17,17 @@
         android:layout_gravity="start"
         android:background="@color/white">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:text="drawermenu" />
+        <ImageView
+            android:id="@+id/iv_drawer_top"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/dog" />
+
+        <ListView
+            android:id="@+id/lv_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/iv_drawer_top" />
     </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>

@@ -12,12 +12,13 @@ import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by win7 on 2017/2/28.
  */
 
-public abstract class BaseFragment<T extends RxPresenter> extends Fragment implements IView {
+public abstract class BaseFragment<T extends IPresenter> extends SupportFragment implements IView {
 
     protected T mPresenter;
     protected View mView;
@@ -46,7 +47,7 @@ public abstract class BaseFragment<T extends RxPresenter> extends Fragment imple
             mPresenter.attachView(this);
             mUnbinder = ButterKnife.bind(this, view);
         }
-        init();
+        initDataAndEvent();
     }
 
     @Override
@@ -72,7 +73,7 @@ public abstract class BaseFragment<T extends RxPresenter> extends Fragment imple
         mToast.show();
     }
 
-    protected abstract void init();
+    protected abstract void initDataAndEvent();
 
     protected abstract void initPresenter();
 

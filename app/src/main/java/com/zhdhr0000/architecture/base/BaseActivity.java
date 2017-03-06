@@ -7,12 +7,14 @@ import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.yokeyword.fragmentation.Fragmentation;
+import me.yokeyword.fragmentation.SupportActivity;
 
 /**
  * Created by win7 on 2017/2/28.
  */
 
-public abstract class BaseActivity<T extends RxPresenter> extends AppCompatActivity implements IView {
+public abstract class BaseActivity<T extends IPresenter> extends SupportActivity implements IView {
 
     protected T mPresenter;
     protected BaseActivity mActivity;
@@ -29,7 +31,7 @@ public abstract class BaseActivity<T extends RxPresenter> extends AppCompatActiv
         if (mPresenter != null) {
             mPresenter.attachView(this);
         }
-        init();
+        initDataAndEvent();
     }
 
     @Override
@@ -52,7 +54,7 @@ public abstract class BaseActivity<T extends RxPresenter> extends AppCompatActiv
 
     protected abstract void initPresenter();
 
-    protected abstract void init();
+    protected abstract void initDataAndEvent();
 
     protected abstract int getLayoutID();
 

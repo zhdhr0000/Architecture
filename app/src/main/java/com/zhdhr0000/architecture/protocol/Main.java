@@ -8,8 +8,8 @@ import com.zhdhr0000.architecture.base.IView;
  */
 
 public interface Main {
-    interface Presenter extends IPresenter {
-
+    interface Presenter extends IPresenter<View> {
+        void doSomething();
     }
 
     interface View extends IView {

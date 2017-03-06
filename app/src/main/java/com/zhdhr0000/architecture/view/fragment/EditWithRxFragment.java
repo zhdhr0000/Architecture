@@ -29,7 +29,7 @@ public class EditWithRxFragment extends BaseFragment<EditWithRxPresenter> implem
     EditText editText;
 
     @Override
-    protected void init() {
+    protected void initDataAndEvent() {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -7,5 +7,10 @@ import com.zhdhr0000.architecture.protocol.Main;
  * Created by win7 on 2017/3/1.
  */
 
-public class MainPresenter extends RxPresenter implements Main.Presenter {
+public class MainPresenter extends RxPresenter<Main.View> implements Main.Presenter {
+
+    @Override
+    public void doSomething() {
+
+    }
 }
