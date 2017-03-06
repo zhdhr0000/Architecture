@@ -4,7 +4,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by win7 on 2017/2/28.
+ * Created by zhangyh on 2017/2/28.
+ * 实现RxJava2的RxPresenter基类,继承自BasePresenter
  */
 
 public class RxPresenter<T extends IView> extends BasePresenter<T> {

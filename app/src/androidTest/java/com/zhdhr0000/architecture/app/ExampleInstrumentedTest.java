@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.zhdhr0000.architecture.app", appContext.getPackageName());
+        assertEquals("com.zhdhr0000.architecture", appContext.getPackageName());
     }
 }

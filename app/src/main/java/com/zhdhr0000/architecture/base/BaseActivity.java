@@ -11,7 +11,8 @@ import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.SupportActivity;
 
 /**
- * Created by win7 on 2017/2/28.
+ * Created by zhangyh on 2017/2/28.
+ * Activity基类
  */
 
 public abstract class BaseActivity<T extends IPresenter> extends SupportActivity implements IView {

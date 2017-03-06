@@ -8,7 +8,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
 /**
- * Created by win7 on 2017/3/1.
+ * Created by zhangyh on 2017/3/1.
  */
 
 public class EditWithRxPresenter extends RxPresenter<EditWithRx.View> implements EditWithRx.Presenter {

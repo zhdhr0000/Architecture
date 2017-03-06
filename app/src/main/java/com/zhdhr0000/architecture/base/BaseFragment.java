@@ -15,7 +15,8 @@ import butterknife.Unbinder;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
- * Created by win7 on 2017/2/28.
+ * Created by zhangyh on 2017/2/28.
+ * Fragment基类
  */
 
 public abstract class BaseFragment<T extends IPresenter> extends SupportFragment implements IView {
