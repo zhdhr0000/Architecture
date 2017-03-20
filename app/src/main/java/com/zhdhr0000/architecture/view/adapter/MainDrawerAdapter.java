@@ -10,6 +10,7 @@ import com.zhdhr0000.architecture.R;
 import com.zhdhr0000.architecture.app.Constants;
 import com.zhdhr0000.architecture.base.BaseFragment;
 import com.zhdhr0000.architecture.view.fragment.EditWithRxFragment;
+import com.zhdhr0000.architecture.view.fragment.JuliaSetFragment;
 import com.zhdhr0000.architecture.view.fragment.ProcessSheildFragment;
 
 import java.util.List;
@@ -67,6 +68,8 @@ public class MainDrawerAdapter extends BaseAdapter {
             case Constants.TYPE_PROCCESSHEILD:
                 tvPageName.setText(ProcessSheildFragment.class.getSimpleName());
                 break;
+            case Constants.TYPE_JULIASET:
+                tvPageName.setText(JuliaSetFragment.class.getSimpleName());
             default:
                 tvPageName.setText(BaseFragment.class.getSimpleName());
                 break;

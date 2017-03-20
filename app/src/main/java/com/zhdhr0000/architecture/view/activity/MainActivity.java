@@ -15,6 +15,7 @@ import com.zhdhr0000.architecture.presenter.MainPresenter;
 import com.zhdhr0000.architecture.protocol.Main;
 import com.zhdhr0000.architecture.view.adapter.MainDrawerAdapter;
 import com.zhdhr0000.architecture.view.fragment.EditWithRxFragment;
+import com.zhdhr0000.architecture.view.fragment.JuliaSetFragment;
 import com.zhdhr0000.architecture.view.fragment.ProcessSheildFragment;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
 
     EditWithRxFragment mEditWithRxFragment;
     ProcessSheildFragment mProcessSheildFragment;
+    JuliaSetFragment mJuliaSetFragment;
 
     @Override
     protected void initPresenter() {
@@ -52,12 +54,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
     protected void initDataAndEvent() {
         mEditWithRxFragment = new EditWithRxFragment();
         mProcessSheildFragment = new ProcessSheildFragment();
-        loadMultipleRootFragment(R.id.place_holder, 0, mEditWithRxFragment, mProcessSheildFragment);
+        mJuliaSetFragment = new JuliaSetFragment();
+        loadMultipleRootFragment(R.id.place_holder, 0,
+                mEditWithRxFragment,
+                mProcessSheildFragment,
+                mJuliaSetFragment);
         mDrawerAdapter = new MainDrawerAdapter(this);
         mLvDrawer.setAdapter(mDrawerAdapter);
         ArrayList list = new ArrayList();
         list.add(Constants.TYPE_EDITWITHRX);
         list.add(Constants.TYPE_PROCCESSHEILD);
+        list.add(Constants.TYPE_JULIASET);
         mDrawerAdapter.setData(list);
         mLvDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -78,6 +85,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
                 return mEditWithRxFragment;
             case Constants.TYPE_PROCCESSHEILD:
                 return mProcessSheildFragment;
+            case Constants.TYPE_JULIASET:
+                return mJuliaSetFragment;
             default:
                 return mEditWithRxFragment;
         }

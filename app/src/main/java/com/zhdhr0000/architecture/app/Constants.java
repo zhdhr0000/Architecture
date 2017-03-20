@@ -9,5 +9,6 @@ public class Constants {
     //Page Type
     public static final int TYPE_EDITWITHRX = 101;
     public static final int TYPE_PROCCESSHEILD = 102;
+    public static final int TYPE_JULIASET = 103;
 
 }
