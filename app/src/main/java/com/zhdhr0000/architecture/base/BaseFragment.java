@@ -46,8 +46,8 @@ public abstract class BaseFragment<T extends IPresenter> extends SupportFragment
         super.onViewCreated(view, savedInstanceState);
         if (mPresenter != null) {
             mPresenter.attachView(this);
-            mUnbinder = ButterKnife.bind(this, view);
         }
+        mUnbinder = ButterKnife.bind(this, view);
         initDataAndEvent();
     }
 
