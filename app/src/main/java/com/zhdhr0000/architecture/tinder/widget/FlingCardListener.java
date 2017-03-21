@@ -232,7 +232,6 @@ public class FlingCardListener implements View.OnTouchListener {
         return 3 * parentWidth / 4.f;
     }
 
-
     public void onSelected(final boolean isLeft,
                            float exitY, long duration) {
 
