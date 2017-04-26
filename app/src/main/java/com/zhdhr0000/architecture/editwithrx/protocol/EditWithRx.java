@@ -8,13 +8,17 @@ import com.zhdhr0000.architecture.base.IView;
  */
 
 public interface EditWithRx {
-    interface Presenter extends IPresenter<View>{
-        void getContent(String content);
+    interface Presenter extends IPresenter<View> {
+        void getContent1(String content);
+        void getContent2(String content);
 
         void commit(String content);
     }
-    interface View extends IView{
-        void showContent(String content);
+
+    interface View extends IView {
+        void showContent1(String content);
+
+        void showContent2(String content);
 
         void showToast(String content);
     }
