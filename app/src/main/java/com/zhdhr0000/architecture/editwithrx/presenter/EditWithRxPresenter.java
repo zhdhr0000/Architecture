@@ -4,6 +4,7 @@ import com.zhdhr0000.architecture.base.RxPresenter;
 import com.zhdhr0000.architecture.editwithrx.protocol.EditWithRx;
 import com.zhdhr0000.architecture.utils.RxUtil;
 
+import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
@@ -14,7 +15,7 @@ import io.reactivex.functions.Consumer;
 public class EditWithRxPresenter extends RxPresenter<EditWithRx.View> implements EditWithRx.Presenter {
     @Override
     public void getContent1(String content) {
-        addDisposables(RxUtil.create(content)
+        addDisposables(Observable.just(content)
                 .compose(RxUtil.<String>schedulerHelper())
                 .subscribe(new Consumer<String>() {
                     @Override
@@ -31,7 +32,7 @@ public class EditWithRxPresenter extends RxPresenter<EditWithRx.View> implements
 
     @Override
     public void getContent2(String content) {
-        addDisposables(RxUtil.create(content)
+        addDisposables(Observable.just(content)
                 .compose(RxUtil.<String>schedulerHelper())
                 .subscribe(new Consumer<String>() {
                     @Override
@@ -48,7 +49,7 @@ public class EditWithRxPresenter extends RxPresenter<EditWithRx.View> implements
 
     @Override
     public void commit(String content) {
-        addDisposables(RxUtil.newSource(content)
+        addDisposables(Observable.just(content)
                 .compose(RxUtil.<String>schedulerHelper())
                 .subscribe(new Consumer<String>() {
                     @Override
