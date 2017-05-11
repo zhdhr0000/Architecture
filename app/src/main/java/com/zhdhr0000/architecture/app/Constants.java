@@ -11,5 +11,5 @@ public class Constants {
     public static final int TYPE_PROCCESSHEILD = 102;
     public static final int TYPE_JULIASET = 103;
     public static final int TYPE_TINDER = 104;
-
+    public static final int TYPE_WEEX = 105;
 }

@@ -2,6 +2,7 @@ package com.zhdhr0000.architecture.app;
 
 import android.app.Application;
 
+
 /**
  * Created by zhangyh on 2017/2/28.
  */
@@ -12,15 +13,9 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        //initDataAndEvent ImageLoader
+        //initImageLoader
         initFresco();
 
-        //initDataAndEvent http
-        initHttp();
-    }
-
-    private void initHttp() {
-        //placeholder
     }
 
     private void initFresco() {

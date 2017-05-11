@@ -8,11 +8,6 @@ import android.widget.TextView;
 
 import com.zhdhr0000.architecture.R;
 import com.zhdhr0000.architecture.app.Constants;
-import com.zhdhr0000.architecture.base.BaseFragment;
-import com.zhdhr0000.architecture.editwithrx.view.fragment.EditWithRxFragment;
-import com.zhdhr0000.architecture.juliaset.view.fragment.JuliaSetFragment;
-import com.zhdhr0000.architecture.processsheild.view.fragment.ProcessSheildFragment;
-import com.zhdhr0000.architecture.tinder.view.fragment.TinderFragment;
 
 import java.util.List;
 
@@ -64,22 +59,30 @@ public class MainDrawerAdapter extends BaseAdapter {
         }
         switch (data.get(position)) {
             case Constants.TYPE_EDITWITHRX:
-                tvPageName.setText(EditWithRxFragment.class.getSimpleName());
+                tvPageName.setText("尝试RxJava");
                 break;
             case Constants.TYPE_PROCCESSHEILD:
-                tvPageName.setText(ProcessSheildFragment.class.getSimpleName());
+                tvPageName.setText("进程全局守护");
                 break;
             case Constants.TYPE_JULIASET:
-                tvPageName.setText(JuliaSetFragment.class.getSimpleName());
+                tvPageName.setText("分形-朱利亚集");
                 break;
             case Constants.TYPE_TINDER:
-                tvPageName.setText(TinderFragment.class.getSimpleName());
+                tvPageName.setText("Tinder视图");
+                break;
+            case Constants.TYPE_WEEX:
+                tvPageName.setText("尝试Yoga和Litho");
                 break;
             default:
-                tvPageName.setText(BaseFragment.class.getSimpleName());
+                tvPageName.setText("[占位符]");
                 break;
         }
         return convertView;
+    }
+
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        return super.getDropDownView(position, convertView, parent);
     }
 
     public List<Integer> getData() {

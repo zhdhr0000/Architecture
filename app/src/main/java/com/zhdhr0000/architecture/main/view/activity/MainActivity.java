@@ -2,8 +2,10 @@ package com.zhdhr0000.architecture.main.view.activity;
 
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -11,13 +13,14 @@ import com.zhdhr0000.architecture.R;
 import com.zhdhr0000.architecture.app.Constants;
 import com.zhdhr0000.architecture.base.BaseActivity;
 import com.zhdhr0000.architecture.base.BaseFragment;
+import com.zhdhr0000.architecture.editwithrx.view.fragment.EditWithRxFragment;
+import com.zhdhr0000.architecture.juliaset.view.fragment.JuliaSetFragment;
 import com.zhdhr0000.architecture.main.presenter.MainPresenter;
 import com.zhdhr0000.architecture.main.protocol.Main;
 import com.zhdhr0000.architecture.main.view.adapter.MainDrawerAdapter;
-import com.zhdhr0000.architecture.editwithrx.view.fragment.EditWithRxFragment;
-import com.zhdhr0000.architecture.juliaset.view.fragment.JuliaSetFragment;
 import com.zhdhr0000.architecture.processsheild.view.fragment.ProcessSheildFragment;
 import com.zhdhr0000.architecture.tinder.view.fragment.TinderFragment;
+import com.zhdhr0000.architecture.utils.DimenUtil;
 
 import java.util.ArrayList;
 
@@ -62,7 +65,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
                 mEditWithRxFragment,
                 mProcessSheildFragment,
                 mJuliaSetFragment,
-                mTinderFragment);
+                mTinderFragment
+        );
         mDrawerAdapter = new MainDrawerAdapter(this);
         mLvDrawer.setAdapter(mDrawerAdapter);
         ArrayList list = new ArrayList();
@@ -70,11 +74,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
         list.add(Constants.TYPE_PROCCESSHEILD);
         list.add(Constants.TYPE_JULIASET);
         list.add(Constants.TYPE_TINDER);
+//        list.add(Constants.TYPE_WEEX);
         mDrawerAdapter.setData(list);
         mLvDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 if (currentFragment != mDrawerAdapter.getData().get(position)) {
                     showHideFragment(getFragmentByType(mDrawerAdapter.getData().get(position)), getFragmentByType(currentFragment));
                     currentFragment = mDrawerAdapter.getData().get(position);
@@ -94,6 +98,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
                 return mJuliaSetFragment;
             case Constants.TYPE_TINDER:
                 return mTinderFragment;
+//            case Constants.TYPE_WEEX:
+//                return mLithoAndYogaFragment;
             default:
                 return mEditWithRxFragment;
         }

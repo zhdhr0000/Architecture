@@ -2,6 +2,7 @@ package com.zhdhr0000.architecture.tinder.widget
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.graphics.PointF
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -220,6 +221,10 @@ class FlingCardListenerKt(var frame: View, itemAtPosition: Any, rotation_degrees
         y[1] = aPosY
         val regression = LinearRegressionKt(x, y)
         return (regression.slope() * exitXPoint + regression.intercept()).toFloat()
+    }
+
+    fun getLastPoint(): PointF {
+        return PointF(this.aPosX, this.aPosY)
     }
 
     fun movedBeyondLeftBorder(): Boolean = aPosX + halfWidth < leftBorder()
