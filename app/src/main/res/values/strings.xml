@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">App</string>
+    <string name="place_holder_string">坑，待填</string>
 </resources>

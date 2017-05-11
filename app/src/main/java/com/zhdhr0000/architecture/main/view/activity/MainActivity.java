@@ -21,6 +21,7 @@ import com.zhdhr0000.architecture.main.view.adapter.MainDrawerAdapter;
 import com.zhdhr0000.architecture.processsheild.view.fragment.ProcessSheildFragment;
 import com.zhdhr0000.architecture.tinder.view.fragment.TinderFragment;
 import com.zhdhr0000.architecture.utils.DimenUtil;
+import com.zhdhr0000.architecture.weex.view.WeexFragment;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
     ProcessSheildFragment mProcessSheildFragment;
     JuliaSetFragment mJuliaSetFragment;
     TinderFragment mTinderFragment;
+    WeexFragment mWeexFragment;
 
     @Override
     protected void initPresenter() {
@@ -61,11 +63,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
         mProcessSheildFragment = new ProcessSheildFragment();
         mJuliaSetFragment = new JuliaSetFragment();
         mTinderFragment = new TinderFragment();
+        mWeexFragment = new WeexFragment();
         loadMultipleRootFragment(R.id.place_holder, 0,
                 mEditWithRxFragment,
                 mProcessSheildFragment,
                 mJuliaSetFragment,
-                mTinderFragment
+                mTinderFragment,
+                mWeexFragment
         );
         mDrawerAdapter = new MainDrawerAdapter(this);
         mLvDrawer.setAdapter(mDrawerAdapter);
@@ -74,7 +78,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
         list.add(Constants.TYPE_PROCCESSHEILD);
         list.add(Constants.TYPE_JULIASET);
         list.add(Constants.TYPE_TINDER);
-//        list.add(Constants.TYPE_WEEX);
+        list.add(Constants.TYPE_WEEX);
         mDrawerAdapter.setData(list);
         mLvDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -98,8 +102,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
                 return mJuliaSetFragment;
             case Constants.TYPE_TINDER:
                 return mTinderFragment;
-//            case Constants.TYPE_WEEX:
-//                return mLithoAndYogaFragment;
+            case Constants.TYPE_WEEX:
+                return mWeexFragment;
             default:
                 return mEditWithRxFragment;
         }

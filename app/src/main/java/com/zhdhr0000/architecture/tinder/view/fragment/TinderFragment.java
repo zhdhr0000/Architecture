@@ -1,16 +1,15 @@
 package com.zhdhr0000.architecture.tinder.view.fragment;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.zhdhr0000.architecture.R;
 import com.zhdhr0000.architecture.base.BaseFragment;
 import com.zhdhr0000.architecture.tinder.presenter.TinderPresenter;
 import com.zhdhr0000.architecture.tinder.protocol.Tinder;
-import com.zhdhr0000.architecture.tinder.view.adapter.Tinder2Adapter;
-import com.zhdhr0000.architecture.tinder.view.adapter.Tinder2LayoutManager;
+import com.zhdhr0000.architecture.tinder.view.adapter.Tinder3Adapter;
+import com.zhdhr0000.architecture.tinder.widget.SwipeCardViewKt;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -20,22 +19,43 @@ import butterknife.BindView;
 
 public class TinderFragment extends BaseFragment<TinderPresenter> implements Tinder.View {
 
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerView;
-
-    @Override
-    public void showError(int type, String msg) {
-
-    }
+    @BindView(R.id.swipecard)
+    SwipeCardViewKt swipecard;
 
     @Override
     protected void initDataAndEvent() {
-        List<String> data = new ArrayList<String>();
-        for (int i = 0; i < 20; i++) {
-            data.add("position" + i);
-        }
-        recyclerView.setAdapter(new Tinder2Adapter(data));
-        recyclerView.setLayoutManager(new Tinder2LayoutManager(mActivity, mView.getMeasuredWidth()));
+        Tinder3Adapter adapter = new Tinder3Adapter();
+        ArrayList list = new ArrayList();
+        for (int i = 0; i < 20; i++) list.add(i + "");
+        adapter.setData(list);
+        swipecard.setAdapter(adapter);
+        swipecard.setMOnFlingListener(new SwipeCardViewKt.OnFlingListener() {
+            @Override
+            public void removeFirstObjectInAdapter() {
+
+            }
+
+            @Override
+            public void onLeftCardExit(@NotNull Object dataObject) {
+
+            }
+
+            @Override
+            public void onRightCardExit(@NotNull Object dataObject) {
+
+            }
+
+            @Override
+            public void onAdapterAboutToEmpty(int itemsInAdapter) {
+
+            }
+
+            @Override
+            public void onScroll(float scrollProgressPercent) {
+
+            }
+        });
+        swipecard.invalidate();
     }
 
     @Override
@@ -46,6 +66,10 @@ public class TinderFragment extends BaseFragment<TinderPresenter> implements Tin
     @Override
     protected int getLayoutID() {
         return R.layout.fragment_tinder;
+    }
+
+    @Override
+    public void showError(int type, String msg) {
     }
 
 }

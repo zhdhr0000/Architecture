@@ -71,7 +71,7 @@ public class MainDrawerAdapter extends BaseAdapter {
                 tvPageName.setText("Tinder视图");
                 break;
             case Constants.TYPE_WEEX:
-                tvPageName.setText("尝试Yoga和Litho");
+                tvPageName.setText("尝试Weex");
                 break;
             default:
                 tvPageName.setText("[占位符]");

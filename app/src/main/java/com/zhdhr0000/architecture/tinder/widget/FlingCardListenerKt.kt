@@ -247,7 +247,7 @@ class FlingCardListenerKt(var frame: View, itemAtPosition: Any, rotation_degrees
         if (!isAnimationRunning) onSelect(false, objectY, 200)
     }
 
-    interface FlingListener {
+    open interface FlingListener {
         fun onCardExited()
         fun leftExit(dataObject: Any)
         fun rightExit(dataObject: Any)

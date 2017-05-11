@@ -1,0 +1,28 @@
+<template>
+    <p class="wrapper">
+        <text class="weex">Hello Weex!</text>
+    </p>
+</template>
+
+<style>
+    .wrapper{
+        flex-direction: column;
+         justify-content: center;
+    }
+    .weex {
+         font-size: 60px;
+         text-align: center;
+         color: #1B90F7;
+    }
+
+
+</style>
+
+<script>
+    module.export = {
+        data:function(){
+            return {
+            }
+        }
+    }
+</script>

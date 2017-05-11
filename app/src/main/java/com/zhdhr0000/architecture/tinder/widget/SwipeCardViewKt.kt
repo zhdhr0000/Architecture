@@ -211,7 +211,7 @@ open class SwipeCardViewKt(context: Context, attributeSet: AttributeSet?, defSty
         fun onItemClicked(itemPostion: Int, obj: Any)
     }
 
-    interface OnFlingListener {
+    open interface OnFlingListener {
         fun removeFirstObjectInAdapter()
 
         fun onLeftCardExit(dataObject: Any)
