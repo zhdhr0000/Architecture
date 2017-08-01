@@ -1,5 +1,7 @@
 package com.zhdhr0000.architecture.tinder.widget
 
+import android.renderscript.Float4
+
 /**
  * Created by zhangyh on 2017/3/21.
  */
@@ -45,6 +47,7 @@ class LinearRegressionKt {
         svar = rss / degreesOfFreedom
         svar1 = svar / xxbar
         svar0 = svar / N + xbar * xbar * svar1
+
     }
 
     fun intercept(): Double = alpha

@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.zhdhr0000.architecture.R;
 import com.zhdhr0000.architecture.base.BaseFragment;
 import com.zhdhr0000.architecture.processsheild.widget.GuardianAngel;
@@ -31,7 +32,7 @@ public class ProcessSheildFragment extends BaseFragment<Presenter> implements Pr
         @Override
         public void onException(Throwable throwable) {
             if (mContent != null) {
-                mContent.setText(throwable.getStackTrace().toString() + "");
+                mContent.setText(new Gson().toJson(throwable.getStackTrace()) + "");
             }
         }
     };
@@ -64,8 +65,8 @@ public class ProcessSheildFragment extends BaseFragment<Presenter> implements Pr
     }
 
     @Override
-    protected void initPresenter() {
-        mPresenter = new ProcessSheildPresenter();
+    protected ProcessSheild.Presenter initPresenter() {
+        return new ProcessSheildPresenter();
     }
 
     @Override

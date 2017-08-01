@@ -12,6 +12,7 @@ import com.zhdhr0000.architecture.R;
 import com.zhdhr0000.architecture.base.BaseFragment;
 import com.zhdhr0000.architecture.editwithrx.presenter.EditWithRxPresenter;
 import com.zhdhr0000.architecture.editwithrx.protocol.EditWithRx;
+import com.zhdhr0000.architecture.tinder.widget.TestBean;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
@@ -123,11 +124,17 @@ public class EditWithRxFragment extends BaseFragment<EditWithRxPresenter> implem
                 mPresenter.commit(button.getText().toString());
             }
         });
+
+        TestBean bean = new TestBean(10, 20,"strC","strD");
+        editText1.setText(String.valueOf(bean.getA()));
+        editText2.setText(String.valueOf(bean.getC()));
+        textView1.setText(bean.getB());
+        textView2.setText(bean.getD());
     }
 
     @Override
-    protected void initPresenter() {
-        mPresenter = new EditWithRxPresenter();
+    protected EditWithRxPresenter initPresenter() {
+        return new EditWithRxPresenter();
     }
 
     @Override
@@ -147,7 +154,7 @@ public class EditWithRxFragment extends BaseFragment<EditWithRxPresenter> implem
 
     @Override
     public void showToast(String content) {
-        Toast.makeText(mActivity,content,Toast.LENGTH_SHORT).show();
+        super.showToast(content);
     }
 
     @Override

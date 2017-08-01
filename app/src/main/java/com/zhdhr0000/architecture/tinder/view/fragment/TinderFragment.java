@@ -17,7 +17,7 @@ import butterknife.BindView;
  * Created by win7 on 2017/3/21.
  */
 
-public class TinderFragment extends BaseFragment<TinderPresenter> implements Tinder.View {
+public class TinderFragment extends BaseFragment<Tinder.Presenter> implements Tinder.View {
 
     @BindView(R.id.swipecard)
     SwipeCardViewKt swipecard;
@@ -59,8 +59,8 @@ public class TinderFragment extends BaseFragment<TinderPresenter> implements Tin
     }
 
     @Override
-    protected void initPresenter() {
-        mPresenter = new TinderPresenter();
+    protected Tinder.Presenter initPresenter() {
+        return new TinderPresenter();
     }
 
     @Override

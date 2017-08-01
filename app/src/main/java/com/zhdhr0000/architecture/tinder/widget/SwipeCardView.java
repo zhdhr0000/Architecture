@@ -99,6 +99,9 @@ public class SwipeCardView extends AdapterView {
 
     @Override
     public void setSelection(int position) {
+        for (int i = 0 ;i<10;i++){
+
+        }
     }
 
     public void init(Adapter mAdapter) {

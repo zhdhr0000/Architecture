@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.zhdhr0000.architecture.R;
 import com.zhdhr0000.architecture.base.BaseFragment;
 import com.zhdhr0000.architecture.juliaset.presenter.JuliaPresenter;
+import com.zhdhr0000.architecture.juliaset.protocol.Julia;
 
 /**
  * Created by win7 on 2017/3/20.
@@ -22,8 +23,8 @@ public class JuliaSetFragment extends BaseFragment {
     }
 
     @Override
-    protected void initPresenter() {
-        mPresenter = new JuliaPresenter();
+    protected Julia.Presenter initPresenter() {
+        return new JuliaPresenter();
     }
 
     @Override

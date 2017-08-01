@@ -18,6 +18,8 @@ import com.zhdhr0000.architecture.juliaset.view.fragment.JuliaSetFragment;
 import com.zhdhr0000.architecture.main.presenter.MainPresenter;
 import com.zhdhr0000.architecture.main.protocol.Main;
 import com.zhdhr0000.architecture.main.view.adapter.MainDrawerAdapter;
+import com.zhdhr0000.architecture.parallax.protocol.Parallax;
+import com.zhdhr0000.architecture.parallax.view.fragment.ParallaxFragment;
 import com.zhdhr0000.architecture.processsheild.view.fragment.ProcessSheildFragment;
 import com.zhdhr0000.architecture.tinder.view.fragment.TinderFragment;
 import com.zhdhr0000.architecture.utils.DimenUtil;
@@ -51,6 +53,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
     JuliaSetFragment mJuliaSetFragment;
     TinderFragment mTinderFragment;
     WeexFragment mWeexFragment;
+    ParallaxFragment mParallaxFragment;
 
     @Override
     protected void initPresenter() {
@@ -64,12 +67,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
         mJuliaSetFragment = new JuliaSetFragment();
         mTinderFragment = new TinderFragment();
         mWeexFragment = new WeexFragment();
+        mParallaxFragment = new ParallaxFragment();
         loadMultipleRootFragment(R.id.place_holder, 0,
                 mEditWithRxFragment,
                 mProcessSheildFragment,
                 mJuliaSetFragment,
                 mTinderFragment,
-                mWeexFragment
+                mWeexFragment,
+                mParallaxFragment
         );
         mDrawerAdapter = new MainDrawerAdapter(this);
         mLvDrawer.setAdapter(mDrawerAdapter);
@@ -79,6 +84,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
         list.add(Constants.TYPE_JULIASET);
         list.add(Constants.TYPE_TINDER);
         list.add(Constants.TYPE_WEEX);
+        list.add(Constants.TYPE_PARALLAX);
         mDrawerAdapter.setData(list);
         mLvDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -104,6 +110,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
                 return mTinderFragment;
             case Constants.TYPE_WEEX:
                 return mWeexFragment;
+            case Constants.TYPE_PARALLAX:
+                return mParallaxFragment;
             default:
                 return mEditWithRxFragment;
         }

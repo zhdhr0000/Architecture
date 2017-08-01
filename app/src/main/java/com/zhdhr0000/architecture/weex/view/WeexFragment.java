@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.taobao.weex.IWXRenderListener;
 import com.taobao.weex.RenderContainer;
@@ -14,6 +15,8 @@ import com.taobao.weex.common.WXRenderStrategy;
 import com.taobao.weex.utils.WXFileUtils;
 import com.zhdhr0000.architecture.R;
 import com.zhdhr0000.architecture.base.BaseFragment;
+import com.zhdhr0000.architecture.base.RxPresenter;
+import com.zhdhr0000.architecture.weex.presenter.WeexPresenter;
 import com.zhdhr0000.architecture.weex.protocol.Weex;
 
 import butterknife.BindView;
@@ -24,7 +27,7 @@ import butterknife.BindView;
 
 public class WeexFragment extends BaseFragment<Weex.Presenter> implements Weex.View, IWXRenderListener {
     @BindView(R.id.weex_container)
-    RenderContainer weexContainer;
+    FrameLayout weexContainer;
 
     WXSDKInstance weexInstance;
 
@@ -35,13 +38,13 @@ public class WeexFragment extends BaseFragment<Weex.Presenter> implements Weex.V
     @Override
     protected void initDataAndEvent() {
         weexInstance = new WXSDKInstance(mActivity);
-        weexInstance.setRenderContainer(weexContainer);
         weexInstance.registerRenderListener(this);
         weexInstance.render("vue sample", WXFileUtils.loadAsset("index.js", mActivity), null, null, WXRenderStrategy.APPEND_ASYNC);
     }
 
     @Override
-    protected void initPresenter() {
+    protected Weex.Presenter initPresenter() {
+        return new WeexPresenter();
     }
 
     @Override

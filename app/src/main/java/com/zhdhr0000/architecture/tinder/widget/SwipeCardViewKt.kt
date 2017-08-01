@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Adapter
 import android.widget.AdapterView
+import android.widget.BaseAdapter
 import android.widget.FrameLayout
 
 
@@ -32,7 +33,6 @@ open class SwipeCardViewKt(context: Context, attributeSet: AttributeSet?, defSty
     var flingCardListener: FlingCardListenerKt? = null
     var mLastTouchPoint: PointF? = null
     var MIN_ADAPTER_STACK = 5
-
 
     constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
     constructor(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int) : this(context, attributeSet, defStyleAttr, 0)
@@ -159,7 +159,9 @@ open class SwipeCardViewKt(context: Context, attributeSet: AttributeSet?, defSty
         } else {
             cleanupLayoutState(child)
         }
+        for (i in 0..10 step 2){
 
+        }
         val w = child.measuredWidth
         val h = child.measuredHeight
 

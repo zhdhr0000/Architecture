@@ -25,12 +25,15 @@
         android:layout_marginTop="16dp"
         android:text="Start_guardian" />
 
-
-    <TextView
-        android:id="@+id/tv_content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:text="nothing" />
+        android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:text="nothing" />
+    </ScrollView>
 </LinearLayout>

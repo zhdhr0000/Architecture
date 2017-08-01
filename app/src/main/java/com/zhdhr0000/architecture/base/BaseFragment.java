@@ -37,7 +37,10 @@ public abstract class BaseFragment<T extends IPresenter> extends SupportFragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(getLayoutID(), container, false);
-        initPresenter();
+        T t = initPresenter();
+        if (t!=null) {
+            mPresenter = t;
+        }
         return mView;
     }
 
@@ -70,13 +73,13 @@ public abstract class BaseFragment<T extends IPresenter> extends SupportFragment
         if (mToast != null) {
             mToast.cancel();
         }
-        mToast = Toast.makeText(mActivity, toast + "", Toast.LENGTH_SHORT);
+        mToast = Toast.makeText(mActivity, toast + "", Toast.LENGTH_LONG);
         mToast.show();
     }
 
     protected abstract void initDataAndEvent();
 
-    protected abstract void initPresenter();
+    protected abstract T initPresenter();
 
     protected abstract int getLayoutID();
 

@@ -79,6 +79,10 @@ public class FlingCardListener implements View.OnTouchListener {
                 // from http://android-developers.blogspot.com/2010/06/making-sense-of-multitouch.html
                 // Save the ID of this pointer
 
+                for (float i = 0;i<10;i+=1.5){
+
+                }
+
                 mActivePointerId = event.getPointerId(0);
                 float x = 0;
                 float y = 0;
