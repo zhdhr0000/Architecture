@@ -1,12 +1,8 @@
 package com.zhdhr.library;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
@@ -15,11 +11,22 @@ import android.widget.FrameLayout;
  */
 
 public class ParallaxView extends FrameLayout {
-    private boolean canParallax;
-    private View mView;
-    private ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener;
-    private ViewTreeObserver.OnDrawListener mOnDrawListener;
-    private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
+    public static int ALIGNMENT_SCREEN = 0;
+    public static int ALIGNMENT_PARENT = 1;
+    public static int DIRECTION_VERTICAL = -1;
+    public static int DIRECTION_HORIZONTAL = 1;
+    public static int DIRECTION_BOTH = 0;
+
+    private int direction = DIRECTION_VERTICAL;//default direction is vertical.
+    private int alignment = ALIGNMENT_SCREEN;//default alignment is screen.
+
+    protected float maxOffsetX = 0.5f;//default max offset x is 0.5f.
+    protected float maxOffsetY = 0.5f;//default max offset y is 0.5f.
+
+    private boolean autoCachingChildDrawable = true;
+    protected ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener;
+    protected ViewTreeObserver.OnDrawListener mOnDrawListener;
+    protected ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
 
     public ParallaxView(Context context) {
         super(context);
@@ -36,44 +43,37 @@ public class ParallaxView extends FrameLayout {
         init();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public ParallaxView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
     }
 
     private void init() {
-        if (getChildCount() == 1) {
-            canParallax = true;
-            mView = getChildAt(0);
-        } else {
-            canParallax = false;
-        }
-    }
-
-    private boolean canParallaxChild() {
-        return canParallax && mView != null;
+        //TODO
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        if (canParallaxChild()) {
-            mOnGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    setupParallax();
-                }
-            };
-
-
-
-            getViewTreeObserver().addOnGlobalLayoutListener(mOnGlobalLayoutListener);
-            getViewTreeObserver().addOnScrollChangedListener(mOnScrollChangedListener);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                getViewTreeObserver().addOnDrawListener(mOnDrawListener);
+        if (autoCachingChildDrawable) {
+            setChildrenDrawnWithCacheEnabled(true);
+        }
+        mOnGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                setupParallax();
             }
+        };
+
+        getViewTreeObserver().addOnGlobalLayoutListener(mOnGlobalLayoutListener);
+        getViewTreeObserver().addOnScrollChangedListener(mOnScrollChangedListener);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            getViewTreeObserver().addOnDrawListener(mOnDrawListener);
         }
     }
 
@@ -85,6 +85,9 @@ public class ParallaxView extends FrameLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        if (autoCachingChildDrawable) {
+            setChildrenDrawingCacheEnabled(false);
+        }
         getViewTreeObserver().removeOnScrollChangedListener(mOnScrollChangedListener);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             getViewTreeObserver().removeOnGlobalLayoutListener(mOnGlobalLayoutListener);
