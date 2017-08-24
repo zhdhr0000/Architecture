@@ -74,7 +74,10 @@ public class MainDrawerAdapter extends BaseAdapter {
                 tvPageName.setText("尝试Weex");
                 break;
             case Constants.TYPE_PARALLAX:
-                tvPageName.setText("视差滚动列表");
+                tvPageName.setText("视差滚动");
+                break;
+            case Constants.TYPE_VIDEO:
+                tvPageName.setText("视频播放demo");
                 break;
             default:
                 tvPageName.setText("[占位符]");

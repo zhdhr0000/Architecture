@@ -6,6 +6,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.taobao.weex.InitConfig;
 import com.taobao.weex.WXSDKEngine;
 import com.taobao.weex.common.WXException;
+import com.zhdhr0000.architecture.R;
 import com.zhdhr0000.architecture.weex.component.WeexImageComponent;
 import com.zhdhr0000.architecture.weex.component.WeexImageLoader;
 
@@ -16,10 +17,12 @@ import com.zhdhr0000.architecture.weex.component.WeexImageLoader;
 
 public class App extends Application {
 
+    public static App instance;
+
     @Override
     public void onCreate() {
         super.onCreate();
-
+        instance = this;
         //initImageLoader
         initFresco();
 

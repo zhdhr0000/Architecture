@@ -2,12 +2,10 @@ package com.zhdhr0000.architecture.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.SupportActivity;
 
 /**
@@ -28,7 +26,7 @@ public abstract class BaseActivity<T extends IPresenter> extends SupportActivity
         setContentView(getLayoutID());
         mUnbinder = ButterKnife.bind(this);
         mActivity = this;
-        initPresenter();
+        mPresenter = initPresenter();
         if (mPresenter != null) {
             mPresenter.attachView(this);
         }
@@ -53,7 +51,7 @@ public abstract class BaseActivity<T extends IPresenter> extends SupportActivity
         mToast.show();
     }
 
-    protected abstract void initPresenter();
+    protected abstract T initPresenter();
 
     protected abstract void initDataAndEvent();
 

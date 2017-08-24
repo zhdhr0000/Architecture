@@ -2,10 +2,8 @@ package com.zhdhr0000.architecture.main.view.activity;
 
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -18,11 +16,10 @@ import com.zhdhr0000.architecture.juliaset.view.fragment.JuliaSetFragment;
 import com.zhdhr0000.architecture.main.presenter.MainPresenter;
 import com.zhdhr0000.architecture.main.protocol.Main;
 import com.zhdhr0000.architecture.main.view.adapter.MainDrawerAdapter;
-import com.zhdhr0000.architecture.parallax.protocol.Parallax;
 import com.zhdhr0000.architecture.parallax.view.fragment.ParallaxFragment;
 import com.zhdhr0000.architecture.processsheild.view.fragment.ProcessSheildFragment;
 import com.zhdhr0000.architecture.tinder.view.fragment.TinderFragment;
-import com.zhdhr0000.architecture.utils.DimenUtil;
+import com.zhdhr0000.architecture.video.view.fragment.VideoFragment;
 import com.zhdhr0000.architecture.weex.view.WeexFragment;
 
 import java.util.ArrayList;
@@ -34,7 +31,7 @@ import butterknife.BindView;
  * App主页
  */
 
-public class MainActivity extends BaseActivity<MainPresenter> implements Main.View {
+public class MainActivity extends BaseActivity<Main.Presenter> implements Main.View {
 
     @BindView(R.id.dl_left_menu)
     DrawerLayout mDlLeftMenu;
@@ -54,10 +51,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
     TinderFragment mTinderFragment;
     WeexFragment mWeexFragment;
     ParallaxFragment mParallaxFragment;
+    VideoFragment mVideoFragment;
 
     @Override
-    protected void initPresenter() {
-        mPresenter = new MainPresenter();
+    protected Main.Presenter initPresenter() {
+        return new MainPresenter();
     }
 
     @Override
@@ -68,13 +66,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
         mTinderFragment = new TinderFragment();
         mWeexFragment = new WeexFragment();
         mParallaxFragment = new ParallaxFragment();
+        mVideoFragment = new VideoFragment();
         loadMultipleRootFragment(R.id.place_holder, 0,
                 mEditWithRxFragment,
                 mProcessSheildFragment,
                 mJuliaSetFragment,
                 mTinderFragment,
                 mWeexFragment,
-                mParallaxFragment
+                mParallaxFragment,
+                mVideoFragment
         );
         mDrawerAdapter = new MainDrawerAdapter(this);
         mLvDrawer.setAdapter(mDrawerAdapter);
@@ -85,6 +85,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
         list.add(Constants.TYPE_TINDER);
         list.add(Constants.TYPE_WEEX);
         list.add(Constants.TYPE_PARALLAX);
+        list.add(Constants.TYPE_VIDEO);
         mDrawerAdapter.setData(list);
         mLvDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -96,6 +97,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
                 }
             }
         });
+
     }
 
     private BaseFragment getFragmentByType(int type) {
@@ -112,6 +114,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Main.Vi
                 return mWeexFragment;
             case Constants.TYPE_PARALLAX:
                 return mParallaxFragment;
+            case Constants.TYPE_VIDEO:
+                return mVideoFragment;
             default:
                 return mEditWithRxFragment;
         }

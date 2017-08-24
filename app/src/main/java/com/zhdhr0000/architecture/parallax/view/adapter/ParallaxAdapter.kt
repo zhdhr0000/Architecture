@@ -1,13 +1,15 @@
 package com.zhdhr0000.architecture.parallax.view.adapter
 
 import android.graphics.Color
+import android.graphics.drawable.Animatable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.widget.TextView
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.controller.BaseControllerListener
 import com.facebook.drawee.view.SimpleDraweeView
+import com.facebook.imagepipeline.image.ImageInfo
 import com.zhdhr0000.architecture.R
 
 /**
@@ -21,7 +23,12 @@ class ParallaxAdapter(var dataset: MutableList<String>) : RecyclerView.Adapter<P
 
     override fun onBindViewHolder(holder: ParallaxViewHolder?, position: Int) {
         holder?.image?.setImageURI(dataset[position])
-        holder?.tvCode?.text = dataset[position]
+
+        val controller = Fresco.newDraweeControllerBuilder()
+                .setControllerListener(AutoFitListener(holder?.image))
+                .build()
+        holder?.image?.controller = controller
+//        holder?.tvCode?.text = dataset[position]
         holder?.itemView?.setBackgroundColor(Color.rgb((Math.random() * 255).toInt(), (Math.random() * 255).toInt(), (Math.random() * 255).toInt()))
     }
 
@@ -31,34 +38,15 @@ class ParallaxAdapter(var dataset: MutableList<String>) : RecyclerView.Adapter<P
 
     class ParallaxViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         var image: SimpleDraweeView = itemView?.findViewById(R.id.sdv_image) as SimpleDraweeView
-        var tvCode: TextView = itemView?.findViewById(R.id.tv_code) as TextView
+//        var tvCode: TextView = itemView?.findViewById(R.id.tv_code) as TextView
     }
 
-    override fun onViewAttachedToWindow(holder: ParallaxViewHolder?) {
-        super.onViewAttachedToWindow(holder)
-        val onGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener{
-
-        }
-        val parallaxScrollListener = ViewTreeObserver.OnScrollChangedListener {
-
-        }
-        val onDrawListener = ViewTreeObserver.OnDrawListener{
-
-        }
-        val onPreDrawListener = ViewTreeObserver.OnPreDrawListener {
-            return@OnPreDrawListener false
-        }
-        holder?.itemView?.setTag(holder.hashCode(), parallaxScrollListener)
-        holder?.itemView?.viewTreeObserver?.addOnScrollChangedListener(parallaxScrollListener)
-    }
-
-    override fun onViewDetachedFromWindow(holder: ParallaxViewHolder?) {
-        super.onViewDetachedFromWindow(holder)
-        try {
-            val parallaxScrollListener = holder?.itemView?.getTag(holder.hashCode()) as ViewTreeObserver.OnScrollChangedListener
-            holder?.itemView?.viewTreeObserver?.removeOnScrollChangedListener(parallaxScrollListener)
-        }catch (e:Exception){
-            e.printStackTrace()
+    internal class AutoFitListener(val image: SimpleDraweeView?) : BaseControllerListener<ImageInfo>() {
+        override fun onFinalImageSet(id: String?, imageInfo: ImageInfo?, animatable: Animatable?) {
+            val aspect = imageInfo?.height?.toFloat()?.div(imageInfo.width.toFloat()) as Float
+            image?.aspectRatio = aspect
+            super.onFinalImageSet(id, imageInfo, animatable)
         }
     }
+
 }

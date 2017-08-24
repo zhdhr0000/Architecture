@@ -3,6 +3,7 @@ package com.zhdhr.library;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
@@ -11,14 +12,11 @@ import android.widget.FrameLayout;
  */
 
 public class ParallaxView extends FrameLayout {
-    public static int ALIGNMENT_SCREEN = 0;
-    public static int ALIGNMENT_PARENT = 1;
     public static int DIRECTION_VERTICAL = -1;
     public static int DIRECTION_HORIZONTAL = 1;
     public static int DIRECTION_BOTH = 0;
 
     private int direction = DIRECTION_VERTICAL;//default direction is vertical.
-    private int alignment = ALIGNMENT_SCREEN;//default alignment is screen.
 
     protected float maxOffsetX = 0.5f;//default max offset x is 0.5f.
     protected float maxOffsetY = 0.5f;//default max offset y is 0.5f.
@@ -27,6 +25,8 @@ public class ParallaxView extends FrameLayout {
     protected ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener;
     protected ViewTreeObserver.OnDrawListener mOnDrawListener;
     protected ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
+    protected View mView;
+    private boolean canParallax;
 
     public ParallaxView(Context context) {
         super(context);
@@ -54,7 +54,12 @@ public class ParallaxView extends FrameLayout {
     }
 
     private void init() {
-        //TODO
+        if (getChildCount() == 1) {
+            canParallax = true;
+            mView = getChildAt(0);
+        } else {
+            canParallax = false;
+        }
     }
 
     @Override
