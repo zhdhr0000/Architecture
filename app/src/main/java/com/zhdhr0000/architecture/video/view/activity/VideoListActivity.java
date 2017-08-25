@@ -1,22 +1,20 @@
 package com.zhdhr0000.architecture.video.view.activity;
 
-import android.app.Activity;
-import android.databinding.adapters.ViewBindingAdapter;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.ListVideoUtil;
-import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
-import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
+import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 import com.taobao.weex.ui.view.listview.ExtendedLinearLayoutManager;
 import com.zhdhr0000.architecture.R;
 import com.zhdhr0000.architecture.base.BaseActivity;
 import com.zhdhr0000.architecture.video.presenter.VideoPresenter;
 import com.zhdhr0000.architecture.video.protocol.Video;
+import com.zhdhr0000.architecture.video.view.MultiType;
+import com.zhdhr0000.architecture.video.view.VideoListAdapter;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -26,8 +24,18 @@ import butterknife.BindView;
 
 public class VideoListActivity extends BaseActivity<Video.Presenter> implements Video.View {
 
+    //    public static String videoUrl = "https://img.wowdsgn.com/res/test/IMG_1722.MP4";
+    public static String videoUrl = "https://img.wowdsgn.com/res/test/IMG_1730.MP4";
+
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    @BindView(R.id.video_fullscreen_container)
+    FrameLayout videoFullscreenContainer;
+    ListVideoUtil listVideoUtil;
+    VideoListAdapter adapter;
+    ExtendedLinearLayoutManager layoutManager;
+    int firstItem;
+    int lastItem;
 
     @Override
     public void showError(int type, String msg) {
@@ -41,9 +49,105 @@ public class VideoListActivity extends BaseActivity<Video.Presenter> implements 
 
     @Override
     protected void initDataAndEvent() {
-        recyclerView.setLayoutManager(new ExtendedLinearLayoutManager(this));
-//        recyclerView.setAdapter();
-        ListVideoUtil listVideoUtil;
+        layoutManager = new ExtendedLinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        listVideoUtil = new ListVideoUtil(this);
+        listVideoUtil.setHideActionBar(true);
+        listVideoUtil.setHideStatusBar(true);
+        listVideoUtil.setAutoRotation(true);
+        listVideoUtil.setNeedShowWifiTip(true);
+        listVideoUtil.setFullLandFrist(false);
+        listVideoUtil.setNeedLockFull(false);
+        listVideoUtil.setFullViewContainer(videoFullscreenContainer);
+
+        ArrayList<MultiType> data = new ArrayList<>();
+        data.add(new MultiType(MultiType.VIDEO, videoUrl));
+        data.add(new MultiType(MultiType.NOT_VIDEO, videoUrl));
+        data.add(new MultiType(MultiType.VIDEO, videoUrl));
+        data.add(new MultiType(MultiType.VIDEO, videoUrl));
+        data.add(new MultiType(MultiType.NOT_VIDEO, videoUrl));
+        data.add(new MultiType(MultiType.VIDEO, videoUrl));
+        data.add(new MultiType(MultiType.VIDEO, videoUrl));
+        data.add(new MultiType(MultiType.NOT_VIDEO, videoUrl));
+        data.add(new MultiType(MultiType.VIDEO, videoUrl));
+        data.add(new MultiType(MultiType.NOT_VIDEO, videoUrl));
+        data.add(new MultiType(MultiType.VIDEO, videoUrl));
+        data.add(new MultiType(MultiType.NOT_VIDEO, videoUrl));
+
+        adapter = new VideoListAdapter(this, data);
+
+        adapter.setListVideoUtil(listVideoUtil);
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                firstItem = layoutManager.findFirstVisibleItemPosition();
+                lastItem = layoutManager.findLastVisibleItemPosition();
+                if (listVideoUtil.getPlayPosition() >= 0 && listVideoUtil.getPlayTAG().equals(VideoListAdapter.TAG)) {
+                    int position = listVideoUtil.getPlayPosition();
+                    if (position < firstItem || position > lastItem) {
+                        GSYVideoManager.onPause();
+//                        if (!listVideoUtil.isSmall() && !listVideoUtil.isFull()) {
+//                            int size = CommonUtil.dip2px(getApplicationContext(), 150);
+//                            listVideoUtil.showSmallVideo(new Point(size, (int) (size * 0.5625)), true, true);
+//                        }
+                    } else {
+                        GSYVideoManager.onResume();
+//                        if (listVideoUtil.isSmall()) {
+//                            listVideoUtil.smallVideoToNormal();
+//                        }
+                    }
+                }
+            }
+        });
+//        listVideoUtil.setVideoAllCallBack(new VideoActivity.SimpleCallback() {
+//            @Override
+//            public void onQuitSmallWidget(String url, Object... objects) {
+//                super.onQuitSmallWidget(url, objects);
+//                if (listVideoUtil.getPlayPosition() >= 0 && listVideoUtil.getPlayTAG().equals(VideoListAdapter.TAG)) {
+//                    int position = listVideoUtil.getPlayPosition();
+//                    if (position < firstItem || position > lastItem) {
+//                        listVideoUtil.releaseVideoPlayer();
+//                        recyclerView.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                adapter.notifyDataSetChanged();
+//                            }
+//                        });
+//                    }
+//                }
+//            }
+//        });
+    }
+
+    @Override
+    public void onBackPressedSupport() {
+        if (listVideoUtil.backFromFull()) {
+            return;
+        }
+        super.onBackPressedSupport();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        GSYVideoManager.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GSYVideoManager.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        listVideoUtil.releaseVideoPlayer();
+        GSYVideoPlayer.releaseAllVideos();
+
     }
 
     @Override
@@ -51,52 +155,4 @@ public class VideoListActivity extends BaseActivity<Video.Presenter> implements 
         return R.layout.activity_video_list;
     }
 
-    private class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.VideoListViewHolder> {
-
-        private List dataset;
-
-        public VideoListAdapter(Activity activity, List dataset) {
-            this.dataset = dataset;
-        }
-
-        @Override
-        public VideoListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new VideoListViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_parallax, parent, false));
-        }
-
-        @Override
-        public void onBindViewHolder(VideoListViewHolder holder, int position) {
-
-        }
-
-        @Override
-        public int getItemCount() {
-            if (dataset != null)
-                return dataset.size();
-            return 0;
-        }
-
-        @Override
-        public void onViewAttachedToWindow(VideoListViewHolder holder) {
-            super.onViewAttachedToWindow(holder);
-        }
-
-        @Override
-        public void onViewDetachedFromWindow(VideoListViewHolder holder) {
-            super.onViewDetachedFromWindow(holder);
-        }
-
-        class VideoListViewHolder extends RecyclerView.ViewHolder {
-            StandardGSYVideoPlayer player;
-            OrientationUtils utils;
-
-            VideoListViewHolder(View itemView) {
-                super(itemView);
-                player = (StandardGSYVideoPlayer) itemView.findViewById(R.id.gsy_video_player);
-            }
-
-        }
-
-
-    }
 }

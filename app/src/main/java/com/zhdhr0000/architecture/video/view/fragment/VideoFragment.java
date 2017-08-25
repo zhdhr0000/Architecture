@@ -9,6 +9,7 @@ import com.zhdhr0000.architecture.base.BaseFragment;
 import com.zhdhr0000.architecture.video.presenter.VideoPresenter;
 import com.zhdhr0000.architecture.video.protocol.Video;
 import com.zhdhr0000.architecture.video.view.activity.VideoActivity;
+import com.zhdhr0000.architecture.video.view.activity.VideoListActivity;
 
 import butterknife.BindView;
 
@@ -38,6 +39,27 @@ public class VideoFragment extends BaseFragment<Video.Presenter> implements Vide
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(mActivity, VideoActivity.class));
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mActivity, VideoActivity.class));
+            }
+        });
+
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mActivity, VideoListActivity.class));
+            }
+        });
+
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mActivity, VideoListActivity.class));
             }
         });
     }

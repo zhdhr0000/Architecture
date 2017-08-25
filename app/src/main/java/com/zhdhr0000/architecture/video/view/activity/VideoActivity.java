@@ -21,7 +21,7 @@ import butterknife.BindView;
 
 public class VideoActivity extends BaseActivity<Video.Presenter> implements Video.View {
 
-    public static String videoUrl = "http://img.wowdsgn.com/res/test/IMG_1722.MP4";
+    public static String videoUrl = "http://img.wowdsgn.com/res/test/IMG_1730.MP4";
 
     @BindView(R.id.gsy_video_player)
     StandardGSYVideoPlayer gsyVideoPlayer;
