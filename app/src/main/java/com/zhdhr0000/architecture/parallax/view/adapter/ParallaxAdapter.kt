@@ -23,12 +23,11 @@ class ParallaxAdapter(var dataset: MutableList<String>) : RecyclerView.Adapter<P
 
     override fun onBindViewHolder(holder: ParallaxViewHolder?, position: Int) {
         holder?.image?.setImageURI(dataset[position])
-
-        val controller = Fresco.newDraweeControllerBuilder()
-                .setControllerListener(AutoFitListener(holder?.image))
-                .build()
-        holder?.image?.controller = controller
-//        holder?.tvCode?.text = dataset[position]
+//        val controller = Fresco.newDraweeControllerBuilder()
+//                .setUri(dataset[position])
+//                .setControllerListener(AutoFitListener(holder?.image))
+//                .build()
+//        holder?.image?.controller = controller
         holder?.itemView?.setBackgroundColor(Color.rgb((Math.random() * 255).toInt(), (Math.random() * 255).toInt(), (Math.random() * 255).toInt()))
     }
 
@@ -38,7 +37,6 @@ class ParallaxAdapter(var dataset: MutableList<String>) : RecyclerView.Adapter<P
 
     class ParallaxViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         var image: SimpleDraweeView = itemView?.findViewById(R.id.sdv_image) as SimpleDraweeView
-//        var tvCode: TextView = itemView?.findViewById(R.id.tv_code) as TextView
     }
 
     internal class AutoFitListener(val image: SimpleDraweeView?) : BaseControllerListener<ImageInfo>() {
