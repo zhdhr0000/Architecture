@@ -1,9 +1,11 @@
 package com.zhdhr0000.architecture.video.view.activity;
 
+import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
 
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.utils.CommonUtil;
 import com.shuyu.gsyvideoplayer.utils.ListVideoUtil;
 import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 import com.taobao.weex.ui.view.listview.ExtendedLinearLayoutManager;
@@ -24,7 +26,6 @@ import butterknife.BindView;
 
 public class VideoListActivity extends BaseActivity<Video.Presenter> implements Video.View {
 
-    //    public static String videoUrl = "https://img.wowdsgn.com/res/test/IMG_1722.MP4";
     public static String videoUrl = "https://img.wowdsgn.com/res/test/IMG_1730.MP4";
 
     @BindView(R.id.recycler_view)
@@ -88,38 +89,38 @@ public class VideoListActivity extends BaseActivity<Video.Presenter> implements 
                 if (listVideoUtil.getPlayPosition() >= 0 && listVideoUtil.getPlayTAG().equals(VideoListAdapter.TAG)) {
                     int position = listVideoUtil.getPlayPosition();
                     if (position < firstItem || position > lastItem) {
-                        GSYVideoManager.onPause();
-//                        if (!listVideoUtil.isSmall() && !listVideoUtil.isFull()) {
-//                            int size = CommonUtil.dip2px(getApplicationContext(), 150);
-//                            listVideoUtil.showSmallVideo(new Point(size, (int) (size * 0.5625)), true, true);
-//                        }
+//                        GSYVideoManager.onPause();
+                        if (!listVideoUtil.isSmall() && !listVideoUtil.isFull()) {
+                            int size = CommonUtil.dip2px(getApplicationContext(), 150);
+                            listVideoUtil.showSmallVideo(new Point(size, (int) (size * 0.5625)), true, true);
+                        }
                     } else {
-                        GSYVideoManager.onResume();
-//                        if (listVideoUtil.isSmall()) {
-//                            listVideoUtil.smallVideoToNormal();
-//                        }
+//                        GSYVideoManager.onResume();
+                        if (listVideoUtil.isSmall()) {
+                            listVideoUtil.smallVideoToNormal();
+                        }
                     }
                 }
             }
         });
-//        listVideoUtil.setVideoAllCallBack(new VideoActivity.SimpleCallback() {
-//            @Override
-//            public void onQuitSmallWidget(String url, Object... objects) {
-//                super.onQuitSmallWidget(url, objects);
-//                if (listVideoUtil.getPlayPosition() >= 0 && listVideoUtil.getPlayTAG().equals(VideoListAdapter.TAG)) {
-//                    int position = listVideoUtil.getPlayPosition();
-//                    if (position < firstItem || position > lastItem) {
-//                        listVideoUtil.releaseVideoPlayer();
-//                        recyclerView.post(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                adapter.notifyDataSetChanged();
-//                            }
-//                        });
-//                    }
-//                }
-//            }
-//        });
+        listVideoUtil.setVideoAllCallBack(new VideoActivity.SimpleCallback() {
+            @Override
+            public void onQuitSmallWidget(String url, Object... objects) {
+                super.onQuitSmallWidget(url, objects);
+                if (listVideoUtil.getPlayPosition() >= 0 && listVideoUtil.getPlayTAG().equals(VideoListAdapter.TAG)) {
+                    int position = listVideoUtil.getPlayPosition();
+                    if (position < firstItem || position > lastItem) {
+                        listVideoUtil.releaseVideoPlayer();
+                        recyclerView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }
+            }
+        });
     }
 
     @Override

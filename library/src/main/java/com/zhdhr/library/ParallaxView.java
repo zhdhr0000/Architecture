@@ -2,6 +2,7 @@ package com.zhdhr.library;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.support.annotation.IntRange;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
@@ -24,24 +25,12 @@ public class ParallaxView extends FrameLayout {
 
     private int direction = DIRECTION_VERTICAL;//default direction is vertical.
 
-//    protected float maxOffsetX = 0.5f;//default max offset x is 0.5f.
-//    protected float maxOffsetY = 0.5f;//default max offset y is 0.5f.
-
     private boolean autoCachingChildDrawable = true;
-    protected ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener;
-    protected ViewTreeObserver.OnDrawListener mOnDrawListener;
     protected ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
     protected View mView;
     private boolean canParallax;
     private int screenHeight;
     private int screenWidth;
-
-    private int width;
-    private int height;
-
-    private float offsetParam;
-    private float offsetRatio;
-    private boolean animating = false;
 
     public ParallaxView(Context context) {
         super(context);
@@ -59,13 +48,9 @@ public class ParallaxView extends FrameLayout {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        width = MeasureSpec.getSize(widthMeasureSpec);
-        height = MeasureSpec.getSize(heightMeasureSpec);
-    }
-
-    private void init() {
+    public void onViewAdded(View child) {
+        super.onViewAdded(child);
+        Log.e(TAG, "onViewAdded");
         if (getChildCount() == 1) {
             canParallax = true;
             mView = getChildAt(0);
@@ -73,7 +58,9 @@ public class ParallaxView extends FrameLayout {
             Log.e(this.getClass().getSimpleName(), "parallaxview can have only one child view. getChildCount = " + getChildCount());
             canParallax = false;
         }
+    }
 
+    private void init() {
         WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
@@ -83,31 +70,25 @@ public class ParallaxView extends FrameLayout {
         wm = null;
     }
 
+    public void setParallaxDirection(@IntRange(from = -1, to = 1) int newdirection) {
+        direction = newdirection;
+    }
+
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        Log.e(TAG, "onattach");
         if (mView == null) {
             if (getChildCount() == 1) {
                 canParallax = true;
                 mView = getChildAt(0);
-            } else {
-                mView = null;
-                canParallax = false;
             }
         }
-        Log.e(TAG, "onattach");
         if (canParallax) {
             Log.e(TAG, "onattach canparallax");
             if (autoCachingChildDrawable) {
                 setChildrenDrawnWithCacheEnabled(true);
             }
-
-//        mOnGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                setupParallax();
-//            }
-//        };
 
             mOnScrollChangedListener = new ViewTreeObserver.OnScrollChangedListener() {
                 @Override
@@ -122,17 +103,24 @@ public class ParallaxView extends FrameLayout {
 
     private void parallaxChildView() {
         Log.e(TAG, "parallax function");
-        if (canParallax && !animating) {
-//            offsetRatio = (screenHeight + mView.getMeasuredHeight()) / (screenHeight + height);
-//            offsetParam = screenHeight - screenHeight * offsetRatio;
+        if (canParallax) {
             int[] location = new int[2];
             getLocationOnScreen(location);
-            float top = location[1] * (mView.getMeasuredHeight() - screenHeight) / (height + screenHeight);
-            mView.setTop((int) top);
-            Log.e(TAG, "do parallax");
+            if (direction == DIRECTION_VERTICAL) {
+                float top = location[1] * (mView.getMeasuredHeight() - getMeasuredHeight()) / (getMeasuredHeight() + screenHeight);
+                mView.setScrollY((int) top);
+                Log.e(TAG, "do parallax vertical");
+            } else if (direction == DIRECTION_HORIZONTAL) {
+                float left = location[0] * (mView.getMeasuredWidth() - getMeasuredWidth()) / (getMeasuredWidth() + screenWidth);
+                mView.setScrollX((int) left);
+                Log.e(TAG, "do parallax horizontal");
+            } else if (direction == DIRECTION_BOTH) {
+                float top = location[1] * (mView.getMeasuredHeight() - getMeasuredHeight()) / (getMeasuredHeight() + screenHeight);
+                float left = location[0] * (mView.getMeasuredWidth() - getMeasuredWidth()) / (getMeasuredWidth() + screenWidth);
+                mView.scrollTo((int) top, (int) left);
+            }
         }
     }
-
 
     @Override
     protected void onDetachedFromWindow() {
@@ -144,12 +132,6 @@ public class ParallaxView extends FrameLayout {
                 setChildrenDrawingCacheEnabled(false);
             }
             getViewTreeObserver().removeOnScrollChangedListener(mOnScrollChangedListener);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//            getViewTreeObserver().removeOnGlobalLayoutListener(mOnGlobalLayoutListener);
-//            getViewTreeObserver().removeOnDrawListener(mOnDrawListener);
-//        } else {
-//            getViewTreeObserver().removeGlobalOnLayoutListener(mOnGlobalLayoutListener);
-//        }
         }
     }
 }

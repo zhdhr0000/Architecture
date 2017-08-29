@@ -22,10 +22,13 @@
         </activity>
 
         <activity android:name=".video.view.activity.VideoActivity" />
-        <activity android:name=".video.view.activity.VideoListActivity"
+        <activity
+            android:name=".video.view.activity.VideoListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".parallax.view.activity.ParallaxViewActivity"
+            android:theme="@style/AppThemeNoActionBar" />
 
     </application>
 

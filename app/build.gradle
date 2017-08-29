@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'android-apt'
 
 android {
@@ -78,6 +79,7 @@ dependencies {
 
     //Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
 
     ////    # required, enough for most devices.
 
