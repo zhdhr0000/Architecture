@@ -79,6 +79,9 @@ public class MainDrawerAdapter extends BaseAdapter {
             case Constants.TYPE_VIDEO:
                 tvPageName.setText("视频播放demo");
                 break;
+            case Constants.TYPE_IMAGETRANSFORM:
+                tvPageName.setText("图片简单处理");
+                break;
             default:
                 tvPageName.setText("[占位符]");
                 break;

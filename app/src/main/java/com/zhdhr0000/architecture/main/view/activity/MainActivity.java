@@ -12,6 +12,7 @@ import com.zhdhr0000.architecture.app.Constants;
 import com.zhdhr0000.architecture.base.BaseActivity;
 import com.zhdhr0000.architecture.base.BaseFragment;
 import com.zhdhr0000.architecture.editwithrx.view.fragment.EditWithRxFragment;
+import com.zhdhr0000.architecture.imagetransform.ImageTransformFragment;
 import com.zhdhr0000.architecture.juliaset.view.fragment.JuliaSetFragment;
 import com.zhdhr0000.architecture.main.presenter.MainPresenter;
 import com.zhdhr0000.architecture.main.protocol.Main;
@@ -52,6 +53,7 @@ public class MainActivity extends BaseActivity<Main.Presenter> implements Main.V
     WeexFragment mWeexFragment;
     ParallaxFragment mParallaxFragment;
     VideoFragment mVideoFragment;
+    ImageTransformFragment mImageTransformFragment;
 
     @Override
     protected Main.Presenter initPresenter() {
@@ -67,6 +69,7 @@ public class MainActivity extends BaseActivity<Main.Presenter> implements Main.V
         mWeexFragment = new WeexFragment();
         mParallaxFragment = new ParallaxFragment();
         mVideoFragment = new VideoFragment();
+        mImageTransformFragment = new ImageTransformFragment();
         loadMultipleRootFragment(R.id.place_holder, 0,
                 mEditWithRxFragment,
                 mProcessSheildFragment,
@@ -74,7 +77,8 @@ public class MainActivity extends BaseActivity<Main.Presenter> implements Main.V
                 mTinderFragment,
                 mWeexFragment,
                 mParallaxFragment,
-                mVideoFragment
+                mVideoFragment,
+                mImageTransformFragment
         );
         mDrawerAdapter = new MainDrawerAdapter(this);
         mLvDrawer.setAdapter(mDrawerAdapter);
@@ -86,6 +90,7 @@ public class MainActivity extends BaseActivity<Main.Presenter> implements Main.V
         list.add(Constants.TYPE_WEEX);
         list.add(Constants.TYPE_PARALLAX);
         list.add(Constants.TYPE_VIDEO);
+        list.add(Constants.TYPE_IMAGETRANSFORM);
         mDrawerAdapter.setData(list);
         mLvDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -116,6 +121,8 @@ public class MainActivity extends BaseActivity<Main.Presenter> implements Main.V
                 return mParallaxFragment;
             case Constants.TYPE_VIDEO:
                 return mVideoFragment;
+            case Constants.TYPE_IMAGETRANSFORM:
+                return mImageTransformFragment;
             default:
                 return mEditWithRxFragment;
         }
