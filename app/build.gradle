@@ -80,6 +80,8 @@ dependencies {
     //Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
+    //ParallaxView
+    implementation project(':library')
 
     ////    # required, enough for most devices.
 
@@ -102,8 +104,11 @@ dependencies {
     //    compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.2'
 
     ////    compile 'tv.danmaku.ijk.media:ijkplayer-example:0.8.2'
+    //VideoPlayerDemo
     compile 'com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer:v2.0.4'
-    implementation project(':library')
+
+    //GPUImage
+    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
 }
 
 repositories {

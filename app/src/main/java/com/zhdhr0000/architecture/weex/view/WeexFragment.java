@@ -9,13 +9,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.taobao.weex.IWXRenderListener;
-import com.taobao.weex.RenderContainer;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.common.WXRenderStrategy;
 import com.taobao.weex.utils.WXFileUtils;
 import com.zhdhr0000.architecture.R;
 import com.zhdhr0000.architecture.base.BaseFragment;
-import com.zhdhr0000.architecture.base.RxPresenter;
 import com.zhdhr0000.architecture.weex.presenter.WeexPresenter;
 import com.zhdhr0000.architecture.weex.protocol.Weex;
 

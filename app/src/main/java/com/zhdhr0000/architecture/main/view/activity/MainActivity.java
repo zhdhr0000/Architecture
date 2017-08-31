@@ -70,16 +70,7 @@ public class MainActivity extends BaseActivity<Main.Presenter> implements Main.V
         mParallaxFragment = new ParallaxFragment();
         mVideoFragment = new VideoFragment();
         mImageTransformFragment = new ImageTransformFragment();
-        loadMultipleRootFragment(R.id.place_holder, 0,
-                mEditWithRxFragment,
-                mProcessSheildFragment,
-                mJuliaSetFragment,
-                mTinderFragment,
-                mWeexFragment,
-                mParallaxFragment,
-                mVideoFragment,
-                mImageTransformFragment
-        );
+        loadRootFragment(R.id.place_holder, mImageTransformFragment);
         mDrawerAdapter = new MainDrawerAdapter(this);
         mLvDrawer.setAdapter(mDrawerAdapter);
         ArrayList list = new ArrayList();
@@ -96,7 +87,7 @@ public class MainActivity extends BaseActivity<Main.Presenter> implements Main.V
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (currentFragment != mDrawerAdapter.getData().get(position)) {
-                    showHideFragment(getFragmentByType(mDrawerAdapter.getData().get(position)), getFragmentByType(currentFragment));
+                    replaceLoadRootFragment(R.id.place_holder, getFragmentByType(mDrawerAdapter.getData().get(position)), true);
                     currentFragment = mDrawerAdapter.getData().get(position);
                     mDlLeftMenu.closeDrawers();
                 }
