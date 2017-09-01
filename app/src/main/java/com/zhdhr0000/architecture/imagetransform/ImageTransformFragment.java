@@ -1,11 +1,13 @@
 package com.zhdhr0000.architecture.imagetransform;
 
-import android.graphics.Color;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -29,6 +31,8 @@ public class ImageTransformFragment extends BaseFragment<ImageTransform.Presente
     ImageView image2;
     @BindView(R.id.seekbar)
     SeekBar seekbar;
+    @BindView(R.id.mask_view)
+    View maskView;
 
     BitmapDrawable wrap = null;
     boolean isChanging = false;
@@ -36,34 +40,39 @@ public class ImageTransformFragment extends BaseFragment<ImageTransform.Presente
 
     @Override
     protected void initDataAndEvent() {
-        wrap = (BitmapDrawable) mActivity.getResources().getDrawable(R.drawable.test3);
+        wrap = (BitmapDrawable) mActivity.getResources().getDrawable(R.drawable.test2);
         white = (BitmapDrawable) mActivity.getResources().getDrawable(R.drawable.test2);
-//        seekbar.setMax(18);
-//        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                changeBitmap(progress);
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//            }
-//        });
+        seekbar.setMax(255);
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                changeBitmap(progress);
+                maskView.setAlpha((255-progress)/255f);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        image1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mActivity, ImageTransformActivity.class));
+            }
+        });
 
         image1.setImageDrawable(wrap);
-        white.getPaint().setFilterBitmap(true);
-        white.getPaint().setColorFilter(new PorterDuffColorFilter(Color.parseColor("#eeFFFFFF"), PorterDuff.Mode.DST_OUT));
-        image2.setImageDrawable(white);
-//        if (wrap != null) {
-//            image2.setImageDrawable(wrap);
-//        } else {
-//            image2.setImageResource(R.mipmap.dog);
-//        }
-//        changeBitmap(0);
+        if (white != null) {
+            image2.setImageDrawable(white);
+        } else {
+            image2.setImageResource(R.mipmap.dog);
+        }
+        changeBitmap(255);
     }
 
     private void changeBitmap(int progress) {
@@ -71,22 +80,15 @@ public class ImageTransformFragment extends BaseFragment<ImageTransform.Presente
             return;
         }
         isChanging = true;
-//        image2.setDrawable1(wrap);
-//        image2.setDrawable2(white);
-
-//        Bitmap copyBitmap = Bitmap.createBitmap(wrap.getBitmap().getWidth(), wrap.getBitmap().getHeight(), Bitmap.Config.ARGB_8888);
-//        Rect rect = new Rect(0, 0, wrap.getBitmap().getWidth(), wrap.getBitmap().getHeight());
-//        Canvas canvas = new Canvas(copyBitmap);
-//        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-//        canvas.drawColor(Color.parseColor("#FFd400"));
-//        int layer = canvas.saveLayer(0, 0, wrap.getBitmap().getWidth(), wrap.getBitmap().getHeight(), paint, Canvas.ALL_SAVE_FLAG);
-//        canvas.drawBitmap(wrap.getBitmap(), rect, rect, paint);
-//        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY));
-//        canvas.drawBitmap(white.getBitmap(), rect, rect, paint);
-//        canvas.restore();
-//        paint.setXfermode(null);
-//        canvas.restoreToCount(layer);
-//        image2.setImageBitmap(copyBitmap);
+        Bitmap copyBitmap = Bitmap.createBitmap(white.getBitmap().getWidth(), white.getBitmap().getHeight(), Bitmap.Config.ARGB_8888);
+        Rect rect = new Rect(0, 0, white.getBitmap().getWidth(), white.getBitmap().getHeight());
+        Canvas canvas = new Canvas(copyBitmap);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        canvas.drawRGB(progress, progress, progress);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY));
+        canvas.drawBitmap(white.getBitmap(), rect, rect, paint);
+        paint.setXfermode(null);
+        image2.setImageBitmap(copyBitmap);
         isChanging = false;
     }
 

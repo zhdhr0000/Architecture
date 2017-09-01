@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#dddddd">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -14,24 +14,41 @@
             android:id="@+id/image1"
             android:layout_width="300dp"
             android:layout_height="300dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:scaleType="centerCrop" />
+
+        <View
+            android:id="@+id/mask_view"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_alignLeft="@id/image1"
+            android:layout_alignStart="@id/image1"
+            android:layout_alignTop="@id/image1"
+            android:alpha="0"
+            android:background="@color/black" />
 
         <SeekBar
             android:id="@+id/seekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/image1"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="30dp"
+            android:max="255"
+            android:progress="255" />
 
         <ImageView
             android:id="@+id/image2"
             android:layout_width="300dp"
             android:layout_height="300dp"
+            android:layout_below="@id/seekbar"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="60dp"
             android:layout_marginTop="30dp"
             android:scaleType="centerCrop" />
 
-    </LinearLayout>
+    </RelativeLayout>
 </ScrollView>

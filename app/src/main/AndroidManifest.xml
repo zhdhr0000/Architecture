@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".main.view.activity.MainActivity"
+            android:screenOrientation="portrait"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +31,9 @@
         <activity
             android:name=".parallax.view.activity.ParallaxViewActivity"
             android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name=".imagetransform.ImageTransformActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 
